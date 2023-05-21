@@ -1,5 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css'
 import Navbar from "./components/Navbar";
+import PrivateRoute from "./components/PrivateRoute";
 import Explore from "./pages/Explore";
 import ForgotPassword from "./pages/ForgotPassword";
 import Offers from "./pages/Offers";
@@ -14,7 +17,10 @@ function App() {
         <Routes>
           <Route path='/' element={<Explore />} />
           <Route path='/offers' element={<Offers />} />
-          <Route path='/profile' element={<Profile />} />
+          {/* Wrap in private router to prevent non-signed-in users from seeing profile page*/}
+          <Route path='/profile' element={<PrivateRoute />}>
+            <Route path='/profile' element={<Profile />} /> 
+          </Route>
           <Route path='/sign-in' element={<SignIn />} />
           <Route path='/sign-up' element={<SignUp />} />
           <Route path='/forgot-password' element={<ForgotPassword />} />
@@ -23,6 +29,7 @@ function App() {
         {/* Navbar must go inside router outsie routes */}
         <Navbar />
       </Router> 
+      <ToastContainer />
     </>
   );
 }
